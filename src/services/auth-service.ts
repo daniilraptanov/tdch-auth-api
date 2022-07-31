@@ -1,7 +1,5 @@
 import bcrypt from "bcryptjs";
-import User from "../db/models/user";
 import { IAuthService } from "../types/services/auth-service";
-import { IUserService } from "../types/services/user-service";
 import { UserServiceImpl } from "./user-service";
 
 const jwt = require("jsonwebtoken");

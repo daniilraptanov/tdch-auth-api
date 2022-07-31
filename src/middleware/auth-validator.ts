@@ -4,7 +4,7 @@ import { apiSchemasBadRequest } from "../errors/http-errors";
 import { loginSchema, registerSchema } from "../schemas/auth-schema";
 import { AuthServiceImpl } from "../services/auth-service";
 import { UserServiceImpl } from "../services/user-service";
-import { IUserDTO } from "../types/dto/user-dto";
+import { IUser } from "../types/models/user";
 
 const jwt = require("jsonwebtoken");
 require("dotenv-safe").config();
@@ -22,7 +22,7 @@ export class AuthValidator {
       const authService = new AuthServiceImpl();
       const userService = new UserServiceImpl();
 
-      const user: IUserDTO = await userService.getUserByEmail(email);
+      const user: IUser = await userService.getUserByEmail(email);
       if (!user) {
         return res.status(400).send("User does not exist");
       }
@@ -57,7 +57,7 @@ export class AuthValidator {
 
       const userService = new UserServiceImpl();
 
-      const user: IUserDTO = await userService.getUserByEmail(email);
+      const user: IUser = await userService.getUserByEmail(email);
       if (user) {
         return res.status(400).send(`User with email ${email} already exist`);
       }

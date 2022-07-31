@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { AuthServiceImpl } from "../services/auth-service";
 import { UserServiceImpl } from "../services/user-service";
 import { IAuthDTO } from "../types/dto/auth-dto";
-import { IUserDTO } from "../types/dto/user-dto";
+import { IUser } from "../types/models/user";
 
 
 export class AuthController {
@@ -13,7 +13,7 @@ export class AuthController {
       const userService = new UserServiceImpl();
 
       const data: IAuthDTO = req.body;
-      const user: IUserDTO = await userService.getUserByEmail(data.email);
+      const user: IUser = await userService.getUserByEmail(data.email);
 
       const token = authService.createToken(user.id);
 
@@ -21,7 +21,7 @@ export class AuthController {
         return res.status(500).send("Token does not created");
       }
 
-      res.status(200).json({ token: token });
+      res.status(200).json({ token: token }); // TODO :: send IUser ?
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
@@ -32,14 +32,14 @@ export class AuthController {
     try {
       const userService = new UserServiceImpl();
 
-      const data: IUserDTO = req.body;
-      const user: IUserDTO = await userService.createUser(data);
+      const data: IAuthDTO = req.body;
+      const user: IUser = await userService.createUser(data);
 
       if (!user) {
         res.status(500).send("User does not created!");
       }
       
-      res.status(201).send("User was created");
+      res.status(201).send("User was created"); // TODO :: send IUser ?
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");

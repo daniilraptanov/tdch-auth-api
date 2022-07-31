@@ -1,23 +1,25 @@
 import User from "../db/models/user";
-import { IUserDTO } from "../types/dto/user-dto";
-import { IAuthService } from "../types/services/auth-service";
+import { IAuthDTO } from "../types/dto/auth-dto";
+import { IUser } from "../types/models/user";
 import { IUserService } from "../types/services/user-service";
 import { AuthServiceImpl } from "./auth-service";
 
 const { v4: uuidv4 } = require('uuid');
 
 export class UserServiceImpl implements IUserService {
-    async getUserByEmail(email: string): Promise<IUserDTO> {
+    async getUserByEmail(email: string): Promise<IUser> {
         return await User.findOne().where({ email: email });
     }
 
-    async createUser(user: IUserDTO): Promise<IUserDTO> {
+    async createUser(user: IAuthDTO): Promise<IUser> {
         const authService = new AuthServiceImpl();
 
-        user.id = uuidv4();
         user.password = await authService.hashedPassword(user.password);
 
-        const result = await new User(user);
+        const result = await new User({
+            ...user,
+            id: uuidv4()
+        });
         if (!result) return;
 
         await result.save();
