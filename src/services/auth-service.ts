@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import User from "../db/models/user";
 import { IAuthService } from "../types/services/auth-service";
+import { IUserService } from "../types/services/user-service";
+import { UserServiceImpl } from "./user-service";
 
 const jwt = require("jsonwebtoken");
 require("dotenv-safe").config();
@@ -8,7 +10,9 @@ require("dotenv-safe").config();
 
 export class AuthServiceImpl implements IAuthService {
   async checkPasswordHash(email: string, password: string): Promise<boolean> {
-    const hash: string = await (await User.findOne().where({ login: email })).password;
+    const userService = new UserServiceImpl();
+
+    const hash: string = (await userService.getUserByEmail(email)).password;
     return await bcrypt.compare(password, hash);
   }
 

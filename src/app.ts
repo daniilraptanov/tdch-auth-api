@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/api/v1", require("./routes/auth-routes"));
-app.use("/api/v1", AuthValidator.auth, require("./routes/user-routes"));
+// app.use("/api/v1", AuthValidator.auth, require("./routes/user-routes"));
 
 app.use(cors());
 
