@@ -24,11 +24,11 @@ export class AuthValidator {
 
       const user: IUser = await userService.getUserByEmail(email);
       if (!user) {
-        return res.status(400).send("User does not exist");
+        return res.status(StatusCodes.BAD_REQUEST).send("User does not exist");
       }
 
       if (!(await authService.checkPasswordHash(email, password))) {
-        return res.status(400).send("Password does not correct");
+        return res.status(StatusCodes.BAD_REQUEST).send("Password does not correct");
       }
 
       return next();
@@ -59,7 +59,7 @@ export class AuthValidator {
 
       const user: IUser = await userService.getUserByEmail(email);
       if (user) {
-        return res.status(400).send(`User with email ${email} already exist`);
+        return res.status(StatusCodes.BAD_REQUEST).send(`User with email ${email} already exist`);
       }
 
       return next();
@@ -77,13 +77,13 @@ export class AuthValidator {
     try {
       const token = req.headers.authorization.split(" ")[1];
       if (!token) {
-        return res.status(401).send("Authorization Error");
+        return res.status(StatusCodes.UNAUTHORIZED).send("Authorization Error");
       }
 
       req["user"] = jwt.verify(token, process.env.JWT_SECRET_KEY);
       next();
     } catch {
-      return res.status(401).send("Authorization Error");
+      return res.status(StatusCodes.UNAUTHORIZED).send("Authorization Error");
     }
   }
 }

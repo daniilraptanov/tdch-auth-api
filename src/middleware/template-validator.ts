@@ -22,12 +22,12 @@ export class TemplateValidator {
 
       const template: ITemplate = await templateService.getTemplateByName(fields.name);
       if (template) {
-        return res.status(400).send(`Template with name ${fields.name} already exist`);
+        return res.status(StatusCodes.BAD_REQUEST).send(`Template with name ${fields.name} already exist`);
       }
 
       const user: IUser = await userService.getUserById(fields.creatorId);
       if(!user) {
-        return res.status(400).send(`User with id ${fields.creatorId} does not exist`);
+        return res.status(StatusCodes.BAD_REQUEST).send(`User with id ${fields.creatorId} does not exist`);
       }
 
 

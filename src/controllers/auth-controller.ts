@@ -19,10 +19,10 @@ export class AuthController {
       const token = authService.createToken(user.id);
 
       if (!token) {
-        return res.status(500).send("Token does not created");
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Token does not created");
       }
 
-      res.status(200).json({ 
+      res.status(StatusCodes.OK).json({ 
         token: token, 
         user: userMapperFactory(user)
       });
@@ -40,10 +40,10 @@ export class AuthController {
       const user: IUser = await userService.createUser(data);
 
       if (!user) {
-        res.status(500).send("User does not created!");
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("User does not created!");
       }
       
-      res.status(201).send("User was created");
+      res.status(StatusCodes.CREATED).send("User was created");
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
