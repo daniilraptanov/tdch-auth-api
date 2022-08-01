@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { userMapperFactory } from "../mappers/user-mapper";
 import { AuthServiceImpl } from "../services/auth-service";
 import { UserServiceImpl } from "../services/user-service";
 import { IAuthDTO } from "../types/dto/auth-dto";
@@ -21,7 +22,10 @@ export class AuthController {
         return res.status(500).send("Token does not created");
       }
 
-      res.status(200).json({ token: token }); // TODO :: send IUser ?
+      res.status(200).json({ 
+        token: token, 
+        user: userMapperFactory(user)
+      });
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
@@ -39,7 +43,7 @@ export class AuthController {
         res.status(500).send("User does not created!");
       }
       
-      res.status(201).send("User was created"); // TODO :: send IUser ?
+      res.status(201).send("User was created");
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
