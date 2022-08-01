@@ -1,5 +1,4 @@
-import { Day } from "../enums/day-enum";
-import { Status } from "../enums/status-enum";
+import { ITaskDTO, ITemplateDTO } from "../dto/template-dto";
 
 
 export interface IWeek {
@@ -8,19 +7,11 @@ export interface IWeek {
     tasks: ITask[];
 }
 
-export interface ITemplate {
+export interface ITemplate extends ITemplateDTO {
     id: string;
-    name: string;
-    description: string;
-    creatorId: string;
-    isPublic: boolean;
     tasks: ITask[];
 }
 
-export interface ITask {
+export interface ITask extends ITaskDTO {
     id: string;
-    name: string;
-    time: string;
-    day: Day;
-    status: Status;
 }

@@ -1,4 +1,5 @@
 import Template from "../db/models/template";
+import { ITemplateDTO } from "../types/dto/template-dto";
 import { ITemplate } from "../types/models/template";
 import { ITemplateService } from "../types/services/template-service";
 
@@ -15,7 +16,7 @@ export class TemplateServiceImpl implements ITemplateService {
         return await Template.find();
     }
 
-    async createTemplate(template: ITemplate): Promise<ITemplate> {
+    async createTemplate(template: ITemplateDTO): Promise<ITemplate> {
         const result = await new Template(template);
         if (!result) return;
 

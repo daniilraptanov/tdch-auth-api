@@ -1,7 +1,7 @@
-import { IWeek } from "../models/template";
+import { IWeekDTO } from "./template-dto";
 
 export interface IUserDTO {
     id: string;
     email: string;
-    weeks: IWeek[];
+    weeks: IWeekDTO[];
 }

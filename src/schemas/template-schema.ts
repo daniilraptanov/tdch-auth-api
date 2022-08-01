@@ -19,6 +19,8 @@ export const templateSchema = Joi.object({
     description: Joi.string().min(30).required(),
     creatorId: Joi.string().required(),
     isPublic: Joi.boolean().required(),
-    tasks: Joi.array().items(taskSchema),
+    tasks: Joi.array().items(taskSchema.append({
+        status: Joi.number().valid(Status.PENDING).required()
+    })),
 });
 
