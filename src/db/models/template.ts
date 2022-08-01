@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { ITask, ITemplate } from "../../types/models/template";
+import { ITask, ITemplate, IWeek } from "../../types/models/template";
 import { Day } from "../../types/enums/day-enum";
 import { Status } from "../../types/enums/status-enum";
 
@@ -29,6 +29,12 @@ export const templateSchema = new Schema<ITemplate>({
   isPublic: { type: Boolean, required: true },
   tasks: [taskSchema],
 });
+
+export const weekSchema = new Schema<IWeek>({
+    id: { type: String, default: uuidv4, unique: true },
+    template: templateSchema,
+    tasks: taskSchema,
+}, { _id : false });
 
 const Template = model<ITemplate>("Template", templateSchema);
 
