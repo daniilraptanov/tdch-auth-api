@@ -1,17 +1,19 @@
 import { Router } from "express";
 import { TemplateController } from "../controllers/template-controller";
-import { TemplateValidator } from "../middleware/template-validator";
+import { RoleMiddleware } from "../middleware/role-middleware";
+import { TemplateValidator } from "../middleware/validators/template-validator";
 
 const router = Router();
 
 router.get(
     "/template/:id",
+    RoleMiddleware.checkTemplateRole,
     TemplateController.getTemplate
 );
 
 router.get(
-    "/template/all",
-    TemplateController.getTemplates
+    "/template/publics",
+    TemplateController.getPublicTemplates
 );
 
 router.post(
@@ -22,6 +24,7 @@ router.post(
 
 router.delete(
     "/template/:id",
+    RoleMiddleware.checkTemplateRole,
     TemplateController.removeTemplate
 );
 

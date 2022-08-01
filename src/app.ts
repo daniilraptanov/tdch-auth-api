@@ -1,7 +1,7 @@
 import express from "express";
 import { swaggerOptions } from "../swagger-settings";
 import { DBCreator } from "./db/database";
-import { AuthValidator } from "./middleware/auth-validator";
+import { AuthValidator } from "./middleware/validators/auth-validator";
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");

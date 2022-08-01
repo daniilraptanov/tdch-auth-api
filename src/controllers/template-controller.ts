@@ -24,11 +24,11 @@ export class TemplateController {
     }
   }
 
-  static async getTemplates(req: Request, res: Response) {
+  static async getPublicTemplates(_req: Request, res: Response) {
     try {
         const templateService = new TemplateServiceImpl();
 
-        const templates: ITemplate[] = await templateService.getTemplates();
+        const templates: ITemplate[] = await templateService.getPublicTemplates();
         if (!templates) {
             res.status(StatusCodes.NOT_FOUND).send("Templates not found");
         }
@@ -45,7 +45,12 @@ export class TemplateController {
         const templateService = new TemplateServiceImpl();
 
         const data: ITemplateDTO = req.body;
-        const template: ITemplate = await templateService.createTemplate(data);
+        const userId = req["user"]["userId"]; // TODO :: replace this logic
+
+        const template: ITemplate = await templateService.createTemplate({
+            ...data,
+            creatorId: userId 
+        });
         if (!template) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Template does not created");
         }

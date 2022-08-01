@@ -12,8 +12,8 @@ export class TemplateServiceImpl implements ITemplateService {
         return await Template.findOne().where({ name: name });
     }
 
-    async getTemplates(): Promise<ITemplate[]> {
-        return await Template.find();
+    async getPublicTemplates(): Promise<ITemplate[]> {
+        return await Template.find().where({ isPublic: true });
     }
 
     async createTemplate(template: ITemplateDTO): Promise<ITemplate> {

@@ -19,7 +19,7 @@ export const taskSchema = new Schema<ITask>({
         enum: [Status.PENDING, Status.PROCESS, Status.COMPLETE],
         default: Status.PENDING
     }
-});
+}, { _id : false });
 
 export const templateSchema = new Schema<ITemplate>({
   id: { type: String, default: uuidv4, unique: true },
