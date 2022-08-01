@@ -4,8 +4,6 @@ import { IUser } from "../types/models/user";
 import { IUserService } from "../types/services/user-service";
 import { AuthServiceImpl } from "./auth-service";
 
-const { v4: uuidv4 } = require('uuid');
-
 export class UserServiceImpl implements IUserService {
     async getUserByEmail(email: string): Promise<IUser> {
         return await User.findOne().where({ email: email });
@@ -16,10 +14,7 @@ export class UserServiceImpl implements IUserService {
 
         user.password = await authService.hashedPassword(user.password);
 
-        const result = await new User({
-            ...user,
-            id: uuidv4()
-        });
+        const result = await new User(user);
         if (!result) return;
 
         await result.save();
