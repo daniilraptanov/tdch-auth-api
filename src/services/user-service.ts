@@ -5,6 +5,10 @@ import { IUserService } from "../types/services/user-service";
 import { AuthServiceImpl } from "./auth-service";
 
 export class UserServiceImpl implements IUserService {
+    async getUserById(id: string): Promise<IUser> {
+        return await User.findOne().where({ id: id });
+    }
+
     async getUserByEmail(email: string): Promise<IUser> {
         return await User.findOne().where({ email: email });
     }
