@@ -4,7 +4,7 @@ import { Status } from "../enums/status-enum";
 
 export interface IWeekDTO {
     id?: string;
-    template: ITemplateDTO;
+    templateId: ITemplateDTO;
     tasks: ITaskDTO[];
 }
 

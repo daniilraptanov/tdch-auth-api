@@ -6,7 +6,7 @@ import { Status } from "../../types/enums/status-enum";
 const { v4: uuidv4 } = require('uuid');
 
 export const taskSchema = new Schema<ITask>({
-    id: { type: String, default: uuidv4, unique: true },
+    id: { type: String, default: uuidv4 },
     name: { type: String, required: true},
     time: { type: String, required: true },
     day: {
@@ -31,8 +31,8 @@ export const templateSchema = new Schema<ITemplate>({
 });
 
 export const weekSchema = new Schema<IWeek>({
-    id: { type: String, default: uuidv4, unique: true },
-    template: templateSchema,
+    id: { type: String, default: uuidv4 },
+    templateId: { type: String, required: true, ref: "Template.id" },
     tasks: taskSchema,
 }, { _id : false });
 

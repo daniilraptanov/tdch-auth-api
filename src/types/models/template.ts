@@ -3,7 +3,7 @@ import { ITaskDTO, ITemplateDTO } from "../dto/template-dto";
 
 export interface IWeek {
     id: string;
-    template: ITemplate;
+    templateId: string;
     tasks: ITask[];
 }
 
