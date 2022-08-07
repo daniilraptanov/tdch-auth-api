@@ -18,6 +18,7 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && node dist/src/app.js",
+    "postinstall": "tsc",
     "server": "nodemon --config nodemon.json src/app.ts"
   },
   "repository": {
