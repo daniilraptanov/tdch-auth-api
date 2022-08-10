@@ -14,11 +14,11 @@ export class RoleMiddleware {
 
       const template: ITemplate = await templateService.getTemplateById(id);
       if (!template) {
-        return res.status(StatusCodes.NOT_FOUND);
+        return res.status(StatusCodes.NOT_FOUND).send("Template does not found");
       }
 
       if (template.creatorId !== userId) { // TODO :: replace this logic
-        return res.status(StatusCodes.UNAUTHORIZED);
+        return res.status(StatusCodes.FORBIDDEN).send("Access is denied");
       }
 
       return next();
