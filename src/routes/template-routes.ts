@@ -6,14 +6,14 @@ import { TemplateValidator } from "../middleware/validators/template-validator";
 const router = Router();
 
 router.get(
-    "/template/:id",
-    RoleMiddleware.checkTemplateRole,
-    TemplateController.getTemplate
+    "/template/publics",
+    TemplateController.getPublicTemplates
 );
 
 router.get(
-    "/template/publics",
-    TemplateController.getPublicTemplates
+    "/template/:id",
+    RoleMiddleware.checkTemplateRole,
+    TemplateController.getTemplate
 );
 
 router.post(
