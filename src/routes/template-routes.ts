@@ -28,5 +28,17 @@ router.delete(
     TemplateController.removeTemplate
 );
 
+router.post(
+    "/template/:id/add",
+    RoleMiddleware.checkPublicTemplate,
+    TemplateController.addTemplateToCurrentUser
+);
+
+router.delete(
+    "/template/:id/remove",
+    RoleMiddleware.checkPublicTemplate,
+    TemplateController.removeTemplateFromCurrentUser
+);
+
 
 module.exports = router;

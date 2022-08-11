@@ -4,9 +4,10 @@ import { templateMapperFactory } from "../mappers/template-mapper";
 import { TemplateServiceImpl } from "../services/template-service";
 import { ITemplateDTO } from "../types/dto/template-dto";
 import { ITemplate } from "../types/models/template";
+import { BaseController } from "./base-controller";
 
 
-export class TemplateController {
+export class TemplateController extends BaseController {
   static async getTemplate(req: Request, res: Response) {
     try {
       const templateService = new TemplateServiceImpl();
@@ -45,7 +46,7 @@ export class TemplateController {
         const templateService = new TemplateServiceImpl();
 
         const data: ITemplateDTO = req.body;
-        const userId = req["user"]["userId"]; // TODO :: replace this logic
+        const userId = this.getCurrentUser(req);
 
         const template: ITemplate = await templateService.createTemplate({
             ...data,
@@ -73,6 +74,34 @@ export class TemplateController {
         }
 
         res.status(StatusCodes.OK).send("Template is removed");
+    } catch (err) {
+      console.log(err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+  }
+
+  static async addTemplateToCurrentUser(req: Request, res: Response) {
+    try {
+      const templateService = new TemplateServiceImpl();
+
+      const { id } = req.params;
+      const userId = this.getCurrentUser(req);
+      // TODO :: add Template by { id } to current User
+
+    } catch (err) {
+      console.log(err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+    }
+  }
+
+  static async removeTemplateFromCurrentUser(req: Request, res: Response) {
+    try {
+      const templateService = new TemplateServiceImpl();
+
+      const { id } = req.params;
+      const userId = this.getCurrentUser(req);
+      // TODO :: remove Template by { id } from current User
+
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
