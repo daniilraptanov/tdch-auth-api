@@ -11,7 +11,7 @@ export class RoleMiddleware extends BaseController {
       const templateService = new TemplateServiceImpl();
 
       const { id } = req.params;
-      const userId = this.getCurrentUser(req);
+      const userId = this.getCurrentUserId(req);
 
       const template: ITemplate = await templateService.getTemplateById(id);
       if (!template) {
@@ -22,6 +22,7 @@ export class RoleMiddleware extends BaseController {
         return res.status(StatusCodes.FORBIDDEN).send("Access is denied");
       }
 
+      this.setEntityToRequest(req, template);
       return next();
     } catch (err) {
       console.log(err);
@@ -44,6 +45,7 @@ export class RoleMiddleware extends BaseController {
         return res.status(StatusCodes.FORBIDDEN).send("Access is denied");
       }
 
+      this.setEntityToRequest(req, template);
       return next();
     } catch (err) {
       console.log(err);

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import { BaseController } from "../../controllers/base-controller";
 import { apiSchemasBadRequest } from "../../errors/http-errors";
 import { loginSchema, registerSchema } from "../../schemas/auth-schema";
 import { AuthServiceImpl } from "../../services/auth-service";
@@ -10,7 +11,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv-safe").config();
 
 
-export class AuthValidator {
+export class AuthValidator extends BaseController {
   static async checkLoginData(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
@@ -31,6 +32,7 @@ export class AuthValidator {
         return res.status(StatusCodes.BAD_REQUEST).send("Password does not correct");
       }
 
+      this.setEntityToRequest(req, user);
       return next();
     } catch (err) {
       console.log(err);
@@ -80,7 +82,7 @@ export class AuthValidator {
         return res.status(StatusCodes.UNAUTHORIZED).send("Authorization Error");
       }
 
-      req["user"] = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      this.setCurrentUserToRequest(req, jwt.verify(token, process.env.JWT_SECRET_KEY));
       next();
     } catch {
       return res.status(StatusCodes.UNAUTHORIZED).send("Authorization Error");

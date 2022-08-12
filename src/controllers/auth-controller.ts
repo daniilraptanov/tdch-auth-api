@@ -5,17 +5,15 @@ import { AuthServiceImpl } from "../services/auth-service";
 import { UserServiceImpl } from "../services/user-service";
 import { IAuthDTO } from "../types/dto/auth-dto";
 import { IUser } from "../types/models/user";
+import { BaseController } from "./base-controller";
 
 
-export class AuthController {
+export class AuthController extends BaseController {
   static async login(req: Request, res: Response) {
     try {
       const authService = new AuthServiceImpl();
-      const userService = new UserServiceImpl();
 
-      const data: IAuthDTO = req.body;
-      const user: IUser = await userService.getUserByEmail(data.email);
-
+      const user: IUser = this.getEntity(req);
       const token = authService.createToken(user.id);
 
       if (!token) {

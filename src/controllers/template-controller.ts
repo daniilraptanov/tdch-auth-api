@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { templateMapperFactory } from "../mappers/template-mapper";
+import { userMapperFactory } from "../mappers/user-mapper";
 import { TemplateServiceImpl } from "../services/template-service";
+import { UserServiceImpl } from "../services/user-service";
 import { ITemplateDTO } from "../types/dto/template-dto";
-import { ITemplate } from "../types/models/template";
+import { ITemplate, IWeek } from "../types/models/template";
+import { IUser } from "../types/models/user";
 import { BaseController } from "./base-controller";
 
 
 export class TemplateController extends BaseController {
   static async getTemplate(req: Request, res: Response) {
-    try {
-      const templateService = new TemplateServiceImpl();
-    
-      const { id } = req.params;
-      const template: ITemplate = await templateService.getTemplateById(id);
+    try {    
+      const template: ITemplate = this.getEntity(req);
       if (!template) {
         res.status(StatusCodes.NOT_FOUND).send("Template not found");
       }
@@ -46,7 +46,7 @@ export class TemplateController extends BaseController {
         const templateService = new TemplateServiceImpl();
 
         const data: ITemplateDTO = req.body;
-        const userId = this.getCurrentUser(req);
+        const userId = this.getCurrentUserId(req);
 
         const template: ITemplate = await templateService.createTemplate({
             ...data,
@@ -82,12 +82,22 @@ export class TemplateController extends BaseController {
 
   static async addTemplateToCurrentUser(req: Request, res: Response) {
     try {
-      const templateService = new TemplateServiceImpl();
+      const userService = new UserServiceImpl();
 
-      const { id } = req.params;
-      const userId = this.getCurrentUser(req);
-      // TODO :: add Template by { id } to current User
+      const template: ITemplate = this.getEntity(req);
+      const userId = this.getCurrentUserId(req);
 
+      const week: IWeek = await userService.getUserWeekByTemplateId(userId, template.id);
+      if (week) {
+        res.status(StatusCodes.BAD_REQUEST).send("Template was usage");
+      }
+     
+      const user: IUser = await userService.updateUserWeeks(userId, template);
+      if (!user || !user.weeks.find(week => week.templateId === template.id)) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+      }
+
+      res.status(StatusCodes.OK).json(userMapperFactory(user));
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
@@ -96,10 +106,16 @@ export class TemplateController extends BaseController {
 
   static async removeTemplateFromCurrentUser(req: Request, res: Response) {
     try {
-      const templateService = new TemplateServiceImpl();
+      const userService = new UserServiceImpl();
 
-      const { id } = req.params;
-      const userId = this.getCurrentUser(req);
+      const template: ITemplate = this.getEntity(req);
+      const userId = this.getCurrentUserId(req);
+
+      const week: IWeek = await userService.getUserWeekByTemplateId(userId, template.id);
+      if (!week) {
+        res.status(StatusCodes.BAD_REQUEST).send("Template was removed from User Weeks");
+      }
+
       // TODO :: remove Template by { id } from current User
 
     } catch (err) {

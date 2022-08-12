@@ -36,7 +36,6 @@ router.post(
 
 router.delete(
     "/template/:id/remove",
-    RoleMiddleware.checkPublicTemplate,
     TemplateController.removeTemplateFromCurrentUser
 );
 
