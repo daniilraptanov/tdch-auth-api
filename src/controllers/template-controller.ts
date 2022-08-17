@@ -116,12 +116,12 @@ export class TemplateController extends BaseController {
         res.status(StatusCodes.BAD_REQUEST).send("Template already was removed from User Weeks");
       }
 
-      const updatedUser: IUser = await userService.popFromUserWeeks(userId, template.id);
-      if (!updatedUser || updatedUser.weeks.find(week => week.templateId === template.id)) {
+      const user: IUser = await userService.popFromUserWeeks(userId, template.id);
+      if (!user || user.weeks.find(week => week.templateId === template.id)) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
       }
 
-      res.status(StatusCodes.OK).send("Template removed from User Weeks");
+      res.status(StatusCodes.OK).json(userMapperFactory(user));
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
