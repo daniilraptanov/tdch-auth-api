@@ -92,7 +92,7 @@ export class TemplateController extends BaseController {
         res.status(StatusCodes.BAD_REQUEST).send("Template was usage");
       }
      
-      const user: IUser = await userService.updateUserWeeks(userId, template);
+      const user: IUser = await userService.pushToUserWeeks(userId, template);
       if (!user || !user.weeks.find(week => week.templateId === template.id)) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
       }
@@ -113,11 +113,15 @@ export class TemplateController extends BaseController {
 
       const week: IWeek = await userService.getUserWeekByTemplateId(userId, template.id);
       if (!week) {
-        res.status(StatusCodes.BAD_REQUEST).send("Template was removed from User Weeks");
+        res.status(StatusCodes.BAD_REQUEST).send("Template already was removed from User Weeks");
       }
 
-      // TODO :: remove Template by { id } from current User
+      const updatedUser: IUser = await userService.popFromUserWeeks(userId, template.id);
+      if (!updatedUser || updatedUser.weeks.find(week => week.templateId === template.id)) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+      }
 
+      res.status(StatusCodes.OK).send("Template removed from User Weeks");
     } catch (err) {
       console.log(err);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");

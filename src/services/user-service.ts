@@ -32,20 +32,29 @@ export class UserServiceImpl implements IUserService {
   ): Promise<IWeek> {
     return (
       await User.findOne({ id: userId })
-    ).weeks.find((week) => week.templateId === templateId);
+    ).weeks.find((week) => week.templateId === templateId); // TODO :: optimization this query
   }
 
-  async updateUserWeeks(userId: string, template: ITemplate): Promise<any> {
+  async pushToUserWeeks(userId: string, template: ITemplate): Promise<any> {
     return await User.updateOne(
       { id: userId },
       {
         $push: {
           weeks: {
-            id: null,
+            id: undefined,
             templateId: template.id,
             tasks: template.tasks,
           },
         },
+      }
+    );
+  }
+
+  async popFromUserWeeks(userId: string, templateId: string): Promise<any> {
+    return await User.updateOne(
+      { id: userId },
+      {
+        $pop: { weeks: { id: templateId } }
       }
     );
   }

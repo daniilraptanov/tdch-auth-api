@@ -8,5 +8,6 @@ export interface IUserService {
     createUser(user: IAuthDTO): Promise<IUser>;
 
     getUserWeekByTemplateId(userId: string, templateId: string): Promise<IWeek>;
-    updateUserWeeks(userId: string, template: ITemplate): Promise<IUser>;
+    pushToUserWeeks(userId: string, template: ITemplate): Promise<IUser>;
+    popFromUserWeeks(userId: string, templateId: string): Promise<IUser>;
 }
