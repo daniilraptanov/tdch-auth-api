@@ -1,6 +1,6 @@
 import express from "express";
 import { DBCreator } from "./db/database";
-import { AuthValidator } from "./middleware/validators/auth-validator";
+import { AuthValidator } from "./middleware/auth-validator";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDoc from "../swagger-doc";

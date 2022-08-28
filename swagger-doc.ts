@@ -1,13 +1,13 @@
 export default {
   openapi: "3.0.0",
   info: {
-    title: "TDCH-MAIN-API",
+    title: "TDCH-AUTH-API",
     version: 1,
-    description: "Auth & main API description for tdch-main-client",
+    description: "Auth API description for tdch-client",
   },
   servers: [
     {
-      url: "https://tdch-main-api.herokuapp.com/",
+      url: "https://tdch-auth-api.herokuapp.com/",
       description: "DEV Env",
     },
   ],

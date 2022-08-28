@@ -1,6 +1,5 @@
 import User from "../db/models/user";
 import { IAuthDTO } from "../types/dto/auth-dto";
-import { ITemplate, IWeek } from "../types/models/template";
 import { IUser } from "../types/models/user";
 import { IUserService } from "../types/services/user-service";
 import { AuthServiceImpl } from "./auth-service";
@@ -24,38 +23,5 @@ export class UserServiceImpl implements IUserService {
 
     await result.save();
     return result;
-  }
-
-  async getUserWeekByTemplateId(
-    userId: string,
-    templateId: string
-  ): Promise<IWeek> {
-    return (
-      await User.findOne({ id: userId })
-    ).weeks.find((week) => week.templateId === templateId); // TODO :: optimization this query
-  }
-
-  async pushToUserWeeks(userId: string, template: ITemplate): Promise<any> {
-    return await User.updateOne(
-      { id: userId },
-      {
-        $push: {
-          weeks: {
-            id: undefined,
-            templateId: template.id,
-            tasks: template.tasks,
-          },
-        },
-      }
-    );
-  }
-
-  async popFromUserWeeks(userId: string, templateId: string): Promise<any> {
-    return await User.updateOne(
-      { id: userId },
-      {
-        $pop: { weeks: { id: templateId } }
-      }
-    );
   }
 }

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import { BaseController } from "../../controllers/base-controller";
-import { apiSchemasBadRequest } from "../../errors/http-errors";
-import { loginSchema, registerSchema } from "../../schemas/auth-schema";
-import { AuthServiceImpl } from "../../services/auth-service";
-import { UserServiceImpl } from "../../services/user-service";
-import { IUser } from "../../types/models/user";
+import { BaseController } from "../controllers/base-controller";
+import { apiSchemasBadRequest } from "../errors/http-errors";
+import { loginSchema, registerSchema } from "../schemas/auth-schema";
+import { AuthServiceImpl } from "../services/auth-service";
+import { UserServiceImpl } from "../services/user-service";
+import { IUser } from "../types/models/user";
 
 const jwt = require("jsonwebtoken");
 require("dotenv-safe").config();

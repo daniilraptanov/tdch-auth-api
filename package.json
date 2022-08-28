@@ -1,5 +1,5 @@
 {
-  "name": "tdch-main",
+  "name": "tdch-auth",
   "version": "1.0.0",
   "description": "",
   "nodemonConfig": {
@@ -23,15 +23,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daniilraptanov/tdch-main-api.git"
+    "url": "git+https://github.com/daniilraptanov/tdch-auth-api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/daniilraptanov/tdch-main-api/issues"
+    "url": "https://github.com/daniilraptanov/tdch-auth-api/issues"
   },
-  "homepage": "https://github.com/daniilraptanov/tdch-main-api#readme",
+  "homepage": "https://github.com/daniilraptanov/tdch-auth-api#readme",
   "devDependencies": {
     "@types/express": "^4.17.13",
     "nodemon": "^2.0.15",
