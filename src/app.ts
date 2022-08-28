@@ -1,6 +1,5 @@
 import express from "express";
-import { DBCreator } from "./db/database";
-import { AuthValidator } from "./middleware/auth-validator";
+import { DBConnector } from "./db/database";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerDoc from "../swagger-doc";
@@ -26,14 +25,10 @@ app.use("/api/v1", require("./routes/auth-routes"));
 
 app.listen(port, async () => {
     try {
-        const dbCreator = await DBCreator.getInstance();
-
-        if (!dbCreator) {
-            throw Error("database error");
-        }
-        return console.log(`server is listening on ${port}`);
+        await DBConnector.connect();
+        return console.log(`Server is listening on ${port}`);
     } catch (err) {
         console.log(err);
-        return console.error(`server error (on ${port})`);
+        return console.error(`Server error (on ${port})`);
     }
 });
