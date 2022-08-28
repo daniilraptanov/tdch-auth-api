@@ -22,7 +22,6 @@ app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use("/api/v1", require("./routes/auth-routes"));
-app.use("/api/v1", AuthValidator.auth, require("./routes/template-routes"));
 
 
 app.listen(port, async () => {
